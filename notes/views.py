@@ -1,5 +1,4 @@
 from django.contrib.auth import authenticate, login, logout
-from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse
 from django.http import HttpResponseRedirect
@@ -12,6 +11,7 @@ from .models import *
 from .forms import *
 
 # Create your views here.
+
 
 def login_view(request):
     if request.method == "POST":
@@ -31,6 +31,7 @@ def login_view(request):
             })
     else:
         return render(request, "notes/login.html")
+
 
 def logout_view(request):
     logout(request)
@@ -91,14 +92,15 @@ def note(request, note_id):
 def new_note(request):
     if request.method == 'POST':
 
-            title = request.POST.get('title')
-            content = request.POST.get('content')
+        title = request.POST.get('title')
+        content = request.POST.get('content')
 
-            note = Note.objects.create(title=title, content=content, creation_date=datetime.now(), user=request.user)
+        note = Note.objects.create(
+            title=title, content=content, creation_date=datetime.now(), user=request.user)
 
-            note.save()
+        note.save()
 
-            return HttpResponseRedirect(reverse('note', args=[note.id]))
+        return HttpResponseRedirect(reverse('note', args=[note.id]))
 
     else:
         return render(request, 'notes/new_note.html')
@@ -248,7 +250,6 @@ def edit_tags(request, note_id):
                 tag_object.notes.add(note)
             else:
                 tag_object.notes.remove(note)
-
 
         return HttpResponseRedirect(reverse('note', args=[note.id]))
     else:
