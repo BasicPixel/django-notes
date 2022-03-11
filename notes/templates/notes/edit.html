@@ -1,0 +1,22 @@
+{% extends "notes/layout.html" %}
+
+
+{% block head %}
+{{ note.title }} - MarkNote
+{% endblock %}
+
+{% block body %}
+
+<form action="{% url 'edit' note.id %}" method="POST">
+    {% csrf_token %}
+    <input type="text" name="title" class="input-field">
+    <textarea name="content" class="materialize-textarea" placeholder="Content" spellcheck="false"
+        autofocus>{{ note.content }}</textarea>
+    <input type="submit" value="preview" class="btn">
+
+    <a href="{% url 'index' %}" class="btn"><i class="material-icons left">
+            cancel
+        </i>Cancel</a>
+    <a href="{% url 'delete' note.id %}" class="btn"><i class="material-icons left">delete</i>Delete Note</a>
+</form>
+{% endblock %}

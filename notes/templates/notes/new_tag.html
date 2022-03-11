@@ -1,0 +1,22 @@
+{% extends "notes/layout.html" %}
+
+{% block head %}
+
+    New Tag - MarkNote
+
+{% endblock %}
+
+{% block body %}
+
+    <h4>New Tag</h4>
+
+    <form action="{% url 'new_tag' %}" method="POST">
+        {% csrf_token %}
+        <div class="input-field">
+            <label for="name">Tag Title</label>
+            <input type="text" name="name">
+        </div>
+        <input type="submit" class="btn" value="Create Tag">
+    </form>
+
+{% endblock %}

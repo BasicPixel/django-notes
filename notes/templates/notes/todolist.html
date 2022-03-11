@@ -1,0 +1,52 @@
+{% extends "notes/layout.html" %}
+
+{% block head %}
+
+    {{ todolist.title }} - MarkNote
+
+{% endblock %}
+
+{% block body %}
+
+    <form action="{% url 'add_task' todolist.id %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="text" class="input-field" placeholder="Add task here..." autocomplete="off">
+    </form>
+
+
+    {% for task in todolist.tasks.all %}
+
+        {% if task.completed %}
+            <div class="collection">
+                <a href="{% url 'complete_task' task.id %}" class="collection-item grey-text text-darken-1 completed">
+                    {{task.text}}
+                    <span class="badge">Completed</span>
+                </a>
+            </div>
+        {% else %}
+            <div class="collection">
+                <a href="{% url 'complete_task' task.id %}" class="collection-item black-text">
+                    {{task.text}}
+                </a>
+            </div>
+        {% endif %}
+
+    {% empty %}
+
+        <p class="flow-text grey-text text-lighten-1">
+            There aren't any tasks in this to-do list.
+        </p>
+
+    {% endfor %}
+
+
+    {% if completed_tasks %}
+        <a href="{% url 'clear_completed' todolist.id %}" class="btn-small">
+            <i class="material-icons left">clear</i>
+            Clear completed
+        </a>
+    {% endif %}
+
+    <a href="{% url 'delete_todolist' todolist.id %}" class="btn-small"><i class="material-icons left">delete</i>Delete todolist</a>
+
+{% endblock %}

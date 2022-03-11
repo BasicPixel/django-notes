@@ -1,0 +1,28 @@
+{% extends "notes/layout.html" %}
+
+
+{% block head %}
+    New Note - MarkNote
+{% endblock %}
+
+{% block body %}
+    <h4>New Note</h4>
+    {% if message %}
+    <blockquote>{{ message }}</blockquote>
+    {% endif %}
+    <form action="{% url 'new_note' %}" method="POST">
+        {% csrf_token %}
+        <div class="input-field">
+            <input name="title" type="text" autocomplete="off">
+            <label for="title">Title</label>
+        </div>
+
+        <div class="input-field">
+            <textarea name="content" class="materialize-textarea"></textarea>
+            <label for="content">Content</label>
+        </div>
+
+        <input type="submit" class="btn" value="Save Note">
+        <a href="{% url 'index' %}" class="btn">Cancel</a>
+    </form>
+{% endblock %}

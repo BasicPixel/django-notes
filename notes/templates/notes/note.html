@@ -1,0 +1,49 @@
+{% extends "notes/layout.html" %}
+
+{% block head %}
+
+    {{ note.title }} - MarkNote
+
+{% endblock %}
+
+{% block body %}
+
+    <h1>{{note.title}}</h1>
+    <hr>
+    {{ content|safe }}
+    <a href="{% url 'edit' note.id %}" class="btn-small"><i class="material-icons left">edit</i>Edit Note</a>
+    <a href="{% url 'delete' note.id %}" class="btn-small"><i class="material-icons left">delete</i>Delete Note</a>
+
+    {% if tag_form %}
+
+        <form action="{% url 'edit_tags' note.id %}" method="post">
+            {% csrf_token %}
+
+            {% for tag in tags %}
+            <p>
+                <label>
+                    {% if note in tag.notes.all %}
+                    <input type="checkbox" name="tags" id="{{tag.id}}" value="{{tag.id}}" class="filled-in" checked='checked'>
+                    {% else %}
+                    <input type="checkbox" name="tags" id="{{tag.id}}" value="{{tag.id}}" class="filled-in">
+                    {% endif %}
+                    <span for="{{tag.id}}">{{tag.name}}</span>
+                </label>
+            </p>
+            {% empty %}
+            There aren't any tags. Add one from the sidebar.
+            {% endfor %}
+
+            <button type="submit" class="btn-small">
+                <i class="material-icons left">local_offer</i>
+                edit tags
+            </button>
+        </form>
+
+    {% else %}
+
+    <a href="{% url 'edit_tags' note.id %}" class="btn-small"><i class="material-icons left">local_offer</i>edit tags</a>
+
+    {% endif %}
+
+{% endblock %}

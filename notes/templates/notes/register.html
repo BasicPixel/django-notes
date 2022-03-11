@@ -1,0 +1,22 @@
+{% extends "notes/layout.html" %}
+
+{% block body %}
+
+    <h2>Register</h2>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <form action="{% url 'register' %}" method="post">
+        {% csrf_token %}
+        <input class="input-field" autofocus type="text" name="username" placeholder="Username">
+        <input class="input-field" type="email" name="email" placeholder="Email Address">
+        <input class="input-field" type="password" name="password" placeholder="Password">
+        <input class="input-field" type="password" name="confirmation" placeholder="Confirm Password">
+        <input type="submit" value="Register" class="btn">
+    </form>
+
+    <div>Already have an account? <a href="{% url 'login' %}">Log In here.</a></div>
+
+{% endblock %}

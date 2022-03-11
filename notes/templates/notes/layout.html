@@ -1,0 +1,107 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="a minimalist markdown note-taking web application">
+    <!-- materialize CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <!-- materialize JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
+    <!-- material icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <!-- stylesheet -->
+    <link rel="stylesheet" href="{% static 'notes/style.css' %}">
+
+    <title>{% block head %}{% endblock %}</title>
+
+</head>
+
+<body id="body">
+    <div class="row">
+        <div class="col s12 m3 l2 grey lighten-4" id="sidebar">
+
+            <!-- SEARCH -->
+            <form action="{% url 'search' %}" method="POST">
+                {% csrf_token %}
+                <input type="text" name="q" placeholder="Search">
+            </form>
+
+            <!-- NOTES -->
+            <div class="collection">
+                <a href="{% url 'new_note' %}" class="collection-item">
+                    <i class="material-icons left">post_add</i>
+                    <strong>New Note</strong>
+                </a>
+                {% for note in notes %}
+                <a href="{% url 'note' note.id %}" class="collection-item">{{ note.title }}</a>
+                {% empty %}
+                <a class="collection-item">No notes.</a>
+                {% endfor %}
+            </div>
+
+            <!-- TODOS -->
+            <div class="collection">
+                <a href="{% url 'new_todolist' %}" class="collection-item">
+                    <i class="material-icons left">add_task</i>
+                    <strong>New To-Do List</strong>
+                </a>
+                {% for todolist in todolists %}
+                <a href="{% url 'todolist' todolist.id %}" class="collection-item">{{ todolist.title }}</a>
+                {% empty %}
+                <a class="collection-item">No to-do lists.</a>
+                {% endfor %}
+            </div>
+
+            <!-- TAGS -->
+            <div class="collection">
+                <a href="{% url 'new_tag' %}" class="collection-item">
+                    <i class="material-icons left">new_label</i>
+                    <strong>New Tag</strong>
+                </a>
+                {% for tag in tags %}
+                <a href="{% url 'tag' tag.id %}" class="collection-item">{{tag.name}}</a>
+                {% empty %}
+                <a class="collection-item">No Tags.</a>
+                {% endfor %}
+            </div>
+
+            <!-- AUTHENTICATION -->
+            <div class="collection" id="authentication">
+                {% if user.is_authenticated %}
+                    <a href="{% url 'logout' %}" class="collection-item">
+                        <i class="material-icons left">logout</i>
+                        Logout
+                    </a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="collection-item">
+                        <i class="material-icons left">login</i>
+                        Login
+                    </a>
+                    <a href="{% url 'register' %}" class="collection-item">
+                        <i class="material-icons left">person_add</i>
+                        Register
+                    </a>
+                {% endif %}
+            </div>
+
+            <!-- EXTERNAL LINKS -->
+            <div class="collection">
+                <a href="https://markdown-guide.readthedocs.io/en/latest/" class="collection-item" target="_blank"
+                    rel="noreferrer">Markdown Guide</a>
+                <a href="https://github.com/BasicPixel" class="collection-item" target="_blank"
+                    rel="noreferrer">GitHub</a>
+            </div>
+        </div>
+
+        <div class="col s12 m9 l10" id="content">
+            {% block body %}{% endblock %}
+        </div>
+    </div>
+</body>
+
+</html>

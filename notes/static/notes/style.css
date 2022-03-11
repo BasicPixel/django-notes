@@ -1,0 +1,16 @@
+html,
+body,
+.row {
+  margin: 0;
+}
+
+.row,
+#sidebar,
+.col {
+  min-height: 100vh;
+  height: 100vh;
+}
+
+.completed {
+  text-decoration: line-through;
+}

@@ -1,0 +1,14 @@
+{% extends "notes/layout.html" %}
+
+
+{% block head %}
+    Not Found - MarkNote
+{% endblock %}
+
+{% block body %}
+    <div style="text-align: center;">
+        <h3>Error 404: Not Found</h3>
+        <p class="flow-text">The requested URL could not be found.</p>
+        <a href="{% url 'index' %}"><button class="btn btn-primary">Back to homepage</button></a>
+    </div>
+{% endblock %}

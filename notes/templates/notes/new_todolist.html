@@ -1,0 +1,19 @@
+{% extends "notes/layout.html" %}
+
+{% block head %}
+
+    New To-do List - MarkNote
+
+{% endblock %}
+
+{% block body %}
+
+    <h4>New To-do List</h4>
+
+    <form action="{% url 'new_todolist' %}" method="post">
+        {% csrf_token %}
+        <input type="text" name="title" class="input-field" placeholder="List Title">
+        <input type="submit" class="btn" value="Create To-do List">
+    </form>
+
+{% endblock %}
